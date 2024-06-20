@@ -26,13 +26,30 @@ exports.getAllproperties = async (req, res) => {
     return res.status(200).json({
       isSuccess: true,
       properties: propertiesList.map((property) => {
-        return {
-          ...property,
-          documents: {
-            offering_circular: property.documents.offering_circular,
-            SEC_circular: property.documents.SEC_circular,
-          },
-        };
+        if (property?.documents) {
+          return {
+            ...property,
+            documents: {
+              offering_circular: property.documents.offering_circular,
+              SEC_circular: property.documents.SEC_circular,
+            },
+          };
+        } else {
+          return {
+            ...property,
+            documents: {
+              offering_circular: "",
+              SEC_circular: "",
+            },
+          };
+        }
+        // return {
+        //   ...property,
+        //   documents: {
+        //     offering_circular: property.documents.offering_circular,
+        //     SEC_circular: property.documents.SEC_circular,
+        //   },
+        // };
       }),
       message: "Ok",
     });
